@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Selección de elementos del DOM
     const form = document.getElementById('interactive-form');
     const nameInput = document.getElementById('name');
     const emailInput = document.getElementById('email');
@@ -9,7 +8,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const submitButton = document.getElementById('submit-button');
     const resetButton = document.getElementById('reset-button');
 
-    // Objeto para mantener el estado de validación de cada campo
     const validationStatus = {
         name: false,
         email: false,
@@ -17,8 +15,6 @@ document.addEventListener('DOMContentLoaded', () => {
         confirmPassword: false,
         age: false
     };
-
-    // --- Funciones de Validación ---
 
     const validateName = () => {
         const isValid = nameInput.value.trim().length >= 3;
@@ -59,8 +55,6 @@ document.addEventListener('DOMContentLoaded', () => {
         checkFormValidity();
     };
 
-    // --- Función para actualizar la UI de validación ---
-
     const updateFieldValidation = (input, isValid, errorMessage) => {
         const errorElement = input.nextElementSibling;
         if (isValid) {
@@ -69,33 +63,25 @@ document.addEventListener('DOMContentLoaded', () => {
             errorElement.textContent = '';
             errorElement.style.display = 'none';
         } else {
-            // Solo muestra el error si el campo no está vacío
             if (input.value.length > 0) {
                 input.classList.remove('valid');
                 input.classList.add('invalid');
                 errorElement.textContent = errorMessage;
                 errorElement.style.display = 'block';
             } else {
-                // Si está vacío, simplemente quita las clases
                 input.classList.remove('valid', 'invalid');
                 errorElement.style.display = 'none';
             }
         }
     };
     
-    // --- Función para comprobar la validez general del formulario ---
-
     const checkFormValidity = () => {
         const isFormValid = Object.values(validationStatus).every(status => status);
         submitButton.disabled = !isFormValid;
     };
-    
-    // --- NUEVA FUNCIÓN para reiniciar el estado del formulario ---
-    const resetFormState = () => {
-        // Resetea el objeto de estado de validación
-        Object.keys(validationStatus).forEach(key => validationStatus[key] = false);
 
-        // Elimina las clases de validación de todos los inputs
+    const resetFormState = () => {
+        Object.keys(validationStatus).forEach(key => validationStatus[key] = false);
         form.querySelectorAll('input').forEach(input => {
             input.classList.remove('valid', 'invalid');
             const errorElement = input.nextElementSibling;
@@ -104,13 +90,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 errorElement.style.display = 'none';
             }
         });
-        
-        // Deshabilita el botón de envío
         submitButton.disabled = true;
     };
-
-
-    // --- Añadir Listeners de Eventos ---
 
     nameInput.addEventListener('input', validateName);
     emailInput.addEventListener('input', validateEmail);
@@ -122,8 +103,8 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault(); 
         if (!submitButton.disabled) {
             alert('¡Formulario enviado con éxito!');
-            form.reset();      // Limpia los valores del formulario
-            resetFormState();  // Llama a la nueva función para limpiar estilos y estados
+            form.reset();      
+            resetFormState();
         }
     });
 
